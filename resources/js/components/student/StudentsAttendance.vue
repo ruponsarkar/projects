@@ -200,7 +200,7 @@ export default {
         });
       }
       this.allAttendance = att;
-      Emp.submitAttendance(this.allAttendance, this.today)
+      Emp.submitAttendance(this.allAttendance, this.today,this.selectedClass)
         .then((res) => {
           console.log("Response**************", res);
           if (res.data.status == 200) {

@@ -31,7 +31,7 @@
                       class="btn btn-success mr-4"
                       :loading="loading"
                       :disabled="loading"
-                    >
+                    > 
                       Show
                     </v-btn>
                   </div>
@@ -39,7 +39,13 @@
               </div>
             </div>
           </v-card>
-
+            <!-- testing purpose  -->
+            <v-card>
+              <div>
+                Data
+              </div>
+            </v-card>
+            <!-- end testing purpose  -->
           <v-app id="inspire">
             <v-card>
               <v-card-title>
@@ -83,6 +89,7 @@ export default {
       selectedClass: "",
       selectedMonth:"2022-05",
       attendance:[],
+      allAttendance:[],
 
 
       search: "",
@@ -120,8 +127,31 @@ export default {
         .then((res) => {
           console.log(res);
           this.desserts = res.data.students;
-          this.attendance = res.data.list[0];
-          console.log("Desserts=>>>",this.attendance);
+          this.attendance = res.data.a;
+          console.log("****=>>>",this.attendance.length);
+
+      // for(let i = 0; i <this.attendance.length; i++){
+          this.attendance.map((attendance) => {
+            let i =1;
+              if(attendance.roll =i){
+              this.allAttendance.push({
+                  roll: attendance.roll,
+                  date: [attendance.attendance],
+              })
+            }
+            
+            
+
+
+          console.log(attendance.roll, attendance.attendance ) ;
+          i++;
+
+      });
+      console.log(this.allAttendance);
+      // }
+         
+
+
         })
         .catch((err) => {
           console.log(err);

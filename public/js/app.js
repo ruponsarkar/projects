@@ -5687,6 +5687,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -5702,6 +5708,7 @@ __webpack_require__.r(__webpack_exports__);
       selectedClass: "",
       selectedMonth: "2022-05",
       attendance: [],
+      allAttendance: [],
       search: "",
       headers: [{
         text: "Student Name",
@@ -5740,8 +5747,24 @@ __webpack_require__.r(__webpack_exports__);
       _Api_Emp__WEBPACK_IMPORTED_MODULE_1__["default"].getStudent(this.selectedClass, this.selectedMonth).then(function (res) {
         console.log(res);
         _this.desserts = res.data.students;
-        _this.attendance = res.data.list[0];
-        console.log("Desserts=>>>", _this.attendance);
+        _this.attendance = res.data.a;
+        console.log("****=>>>", _this.attendance.length); // for(let i = 0; i <this.attendance.length; i++){
+
+        _this.attendance.map(function (attendance) {
+          var i = 1;
+
+          if (attendance.roll = i) {
+            _this.allAttendance.push({
+              roll: attendance.roll,
+              date: [attendance.attendance]
+            });
+          }
+
+          console.log(attendance.roll, attendance.attendance);
+          i++;
+        });
+
+        console.log(_this.allAttendance); // }
       })["catch"](function (err) {
         console.log(err);
       });
@@ -5981,7 +6004,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       }
 
       this.allAttendance = att;
-      _Api_Emp__WEBPACK_IMPORTED_MODULE_2__["default"].submitAttendance(this.allAttendance, this.today).then(function (res) {
+      _Api_Emp__WEBPACK_IMPORTED_MODULE_2__["default"].submitAttendance(this.allAttendance, this.today, this.selectedClass).then(function (res) {
         console.log("Response**************", res);
 
         if (res.data.status == 200) {
@@ -6060,10 +6083,11 @@ __webpack_require__.r(__webpack_exports__);
   showClass: function showClass(selectedClass) {
     return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().get("/student/".concat(selectedClass));
   },
-  submitAttendance: function submitAttendance(attendance, today) {
+  submitAttendance: function submitAttendance(attendance, today, selectedClass) {
     return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().post('/submitAttendance/', {
       attendance: attendance,
-      today: today
+      today: today,
+      selectedClass: selectedClass
     });
   },
   getStudent: function getStudent(selectedClass, selectedMonth) {
@@ -33640,7 +33664,7 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                    Show\n                  "
+                                " \n                    Show\n                  "
                               ),
                             ]
                           ),
@@ -33650,6 +33674,10 @@ var render = function () {
                     ]),
                   ]),
                 ]),
+              ]),
+              _vm._v(" "),
+              _c("v-card", [
+                _c("div", [_vm._v("\n              Data\n            ")]),
               ]),
               _vm._v(" "),
               _c(

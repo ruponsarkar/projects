@@ -34,14 +34,15 @@ class StudentController extends Controller
     function submitAttendance(Request $request){
         $a = $request->attendance;
 
-        $checkDay = attendance::where([['date', $request->today], ['sid', $a[0]['id']]])->exists();
+        $checkDay = attendance::where([['date', $request->today], ['roll', $a[0]['id']], ['class_id', $request->selectedClass] ])->exists();
         if($checkDay){
             return response()->json(['message'=> 'Already attendance exists', 'status'=> 403]);
         }
 
         foreach($a as $student){
             $save = new attendance;
-            $save->sid = $student['id'];
+            $save->roll = $student['id'];
+            $save->class_id = $request->selectedClass;
             $save->attendance = $student['status'];
             $save->date = $request->today;
             $save->save();

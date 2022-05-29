@@ -5,8 +5,8 @@ export default {
         return Api().get(`/student/${selectedClass}`)
     },
 
-    submitAttendance(attendance, today){
-        return Api().post('/submitAttendance/', {attendance, today});
+    submitAttendance(attendance, today, selectedClass){
+        return Api().post('/submitAttendance/', {attendance, today,selectedClass});
     },
 
     getStudent(selectedClass, selectedMonth){
