@@ -3,7 +3,7 @@
     
 
       <!-- Navbar -->
-  <nav class="main-header navbar navbar-expand navbar-white navbar-light">
+  <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="z-index:0 !important">
     <!-- Left navbar links -->
     <ul class="navbar-nav">
       <li class="nav-item">
@@ -126,7 +126,7 @@
               </li>
 
               <li class="nav-item">
-                <router-link to="test" class="nav-link">
+                <router-link to="checkAttendance" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Check Attendance</p>
                 </router-link>
