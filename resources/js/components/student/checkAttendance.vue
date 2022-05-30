@@ -11,6 +11,7 @@
                   :items="AllClass"
                   :menu-props="{ top: true, offsetY: true }"
                   label="Select Class"
+                  v-model="selectedClass"
                   :rules="rules"
                 ></v-select>
               </v-col>
@@ -47,10 +48,9 @@
                   </template>
                   <v-date-picker
                     v-model="fromDate"
-                    type="month"
+                    type="date"
                     no-title
                     @input="menu1 = false"
-                    
                   ></v-date-picker>
                 </v-menu>
               </v-col>
@@ -78,25 +78,50 @@
                   </template>
                   <v-date-picker
                     v-model="toDate"
-                    type="month"
+                    type="date"
                     no-title
                     @input="menu2 = false"
                   ></v-date-picker>
                 </v-menu>
               </v-col>
+
+              <v-col cols="12">
+                <v-btn
+                  block
+                  @click="checkAttendance"
+                  class="btn btn-success"
+                  color="primary"
+                  :loading="loading"
+                  :disabled="loading"
+                >
+                  Show
+                </v-btn>
+              </v-col>
             </v-row>
 
-            <v-col cols="12">
-              <v-btn
-                block
-                @click="showClass"
-                class="btn btn-success"
-                color="primary"
-                :loading="loading"
-                :disabled="loading"
-              >
-                Show
-              </v-btn>
+            <v-col col="12">
+              <v-simple-table dense>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th>Index</th>
+                      <th>Name</th>
+                      <th>Roll No</th>
+                      <th  v-for="(item, index) in attendance" :key="index" class="text-left">{{item.date}}</th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>{{student[0].name}}</td>
+                      <td>{{student[0].rollno}}</td>
+                      <td v-for="item in attendance" :key="item.id">{{ item.attendance }}</td>
+                      
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </v-col>
           </v-app>
         </v-container>
@@ -104,6 +129,9 @@
     </div>
   </div>
 </template>
+
+
+ 
 
 <script>
 import SideTopNav from "../Partial/SideTopNav.vue";
@@ -127,8 +155,47 @@ export default {
       menu1: false,
       menu2: false,
       AllClass: ["1", "2", "3", "4", "5", "6"],
-      rollno:"",
+      rollno: "",
+      selectedClass:"",
+      attendance:[],
+      student:'',
+
+      desserts: [
+        {
+          name: "Frozen Yogurt",
+          calories: 159,
+        },
+        {
+          name: "Ice cream sandwich",
+          calories: 237,
+        },
+        {
+          name: "Eclair",
+          calories: 262,
+        },
+        {
+          name: "Cupcake",
+          calories: 305,
+        },
+       
+      ],
     };
   },
+
+  methods: {
+    checkAttendance(){
+
+      Emp.checkAttendance(this.selectedClass, this.rollno, this.fromDate, this.toDate)
+      .then((res)=>{
+        console.log(res);
+        this.attendance = res.data.attendance;
+        this.student = res.data.students;
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+    }
+
+  }
 };
 </script>

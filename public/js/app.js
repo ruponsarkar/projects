@@ -6260,6 +6260,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -6280,8 +6308,37 @@ __webpack_require__.r(__webpack_exports__);
       menu1: false,
       menu2: false,
       AllClass: ["1", "2", "3", "4", "5", "6"],
-      rollno: ""
+      rollno: "",
+      selectedClass: "",
+      attendance: [],
+      student: '',
+      desserts: [{
+        name: "Frozen Yogurt",
+        calories: 159
+      }, {
+        name: "Ice cream sandwich",
+        calories: 237
+      }, {
+        name: "Eclair",
+        calories: 262
+      }, {
+        name: "Cupcake",
+        calories: 305
+      }]
     };
+  },
+  methods: {
+    checkAttendance: function checkAttendance() {
+      var _this = this;
+
+      _Api_Emp__WEBPACK_IMPORTED_MODULE_1__["default"].checkAttendance(this.selectedClass, this.rollno, this.fromDate, this.toDate).then(function (res) {
+        console.log(res);
+        _this.attendance = res.data.attendance;
+        _this.student = res.data.students;
+      })["catch"](function (err) {
+        console.log(err);
+      });
+    }
   }
 });
 
@@ -6345,6 +6402,14 @@ __webpack_require__.r(__webpack_exports__);
     return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().post('/getStudent/', {
       selectedClass: selectedClass,
       selectedMonth: selectedMonth
+    });
+  },
+  checkAttendance: function checkAttendance(selectedClass, roll, fromDate, toDate) {
+    return (0,_Api__WEBPACK_IMPORTED_MODULE_0__["default"])().post('checkAttendance/', {
+      selectedClass: selectedClass,
+      roll: roll,
+      fromDate: fromDate,
+      toDate: toDate
     });
   }
 });
@@ -34830,6 +34895,13 @@ var render = function () {
                                 label: "Select Class",
                                 rules: _vm.rules,
                               },
+                              model: {
+                                value: _vm.selectedClass,
+                                callback: function ($$v) {
+                                  _vm.selectedClass = $$v
+                                },
+                                expression: "selectedClass",
+                              },
                             }),
                           ],
                           1
@@ -34921,7 +34993,7 @@ var render = function () {
                               [
                                 _vm._v(" "),
                                 _c("v-date-picker", {
-                                  attrs: { type: "month", "no-title": "" },
+                                  attrs: { type: "date", "no-title": "" },
                                   on: {
                                     input: function ($event) {
                                       _vm.menu1 = false
@@ -35006,7 +35078,7 @@ var render = function () {
                               [
                                 _vm._v(" "),
                                 _c("v-date-picker", {
-                                  attrs: { type: "month", "no-title": "" },
+                                  attrs: { type: "date", "no-title": "" },
                                   on: {
                                     input: function ($event) {
                                       _vm.menu2 = false
@@ -35026,28 +35098,100 @@ var render = function () {
                           ],
                           1
                         ),
+                        _vm._v(" "),
+                        _c(
+                          "v-col",
+                          { attrs: { cols: "12" } },
+                          [
+                            _c(
+                              "v-btn",
+                              {
+                                staticClass: "btn btn-success",
+                                attrs: {
+                                  block: "",
+                                  color: "primary",
+                                  loading: _vm.loading,
+                                  disabled: _vm.loading,
+                                },
+                                on: { click: _vm.checkAttendance },
+                              },
+                              [_vm._v("\n                Show\n              ")]
+                            ),
+                          ],
+                          1
+                        ),
                       ],
                       1
                     ),
                     _vm._v(" "),
                     _c(
                       "v-col",
-                      { attrs: { cols: "12" } },
+                      { attrs: { col: "12" } },
                       [
-                        _c(
-                          "v-btn",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: {
-                              block: "",
-                              color: "primary",
-                              loading: _vm.loading,
-                              disabled: _vm.loading,
+                        _c("v-simple-table", {
+                          attrs: { dense: "" },
+                          scopedSlots: _vm._u([
+                            {
+                              key: "default",
+                              fn: function () {
+                                return [
+                                  _c("thead", [
+                                    _c(
+                                      "tr",
+                                      [
+                                        _c("th", [_vm._v("Index")]),
+                                        _vm._v(" "),
+                                        _c("th", [_vm._v("Name")]),
+                                        _vm._v(" "),
+                                        _c("th", [_vm._v("Roll No")]),
+                                        _vm._v(" "),
+                                        _vm._l(
+                                          _vm.attendance,
+                                          function (item, index) {
+                                            return _c(
+                                              "th",
+                                              {
+                                                key: index,
+                                                staticClass: "text-left",
+                                              },
+                                              [_vm._v(_vm._s(item.date))]
+                                            )
+                                          }
+                                        ),
+                                      ],
+                                      2
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("tbody", [
+                                    _c(
+                                      "tr",
+                                      [
+                                        _c("td", [_vm._v("1")]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(_vm._s(_vm.student[0].name)),
+                                        ]),
+                                        _vm._v(" "),
+                                        _c("td", [
+                                          _vm._v(_vm._s(_vm.student[0].rollno)),
+                                        ]),
+                                        _vm._v(" "),
+                                        _vm._l(_vm.attendance, function (item) {
+                                          return _c("td", { key: item.id }, [
+                                            _vm._v(_vm._s(item.attendance)),
+                                          ])
+                                        }),
+                                      ],
+                                      2
+                                    ),
+                                  ]),
+                                ]
+                              },
+                              proxy: true,
                             },
-                            on: { click: _vm.showClass },
-                          },
-                          [_vm._v("\n              Show\n            ")]
-                        ),
+                          ]),
+                        }),
                       ],
                       1
                     ),
@@ -50657,7 +50801,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuetify_lib_components_VMenu__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vuetify/lib/components/VMenu */ "./node_modules/vuetify/lib/components/VMenu/VMenu.js");
 /* harmony import */ var vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vuetify/lib/components/VGrid */ "./node_modules/vuetify/lib/components/VGrid/VRow.js");
 /* harmony import */ var vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! vuetify/lib/components/VSelect */ "./node_modules/vuetify/lib/components/VSelect/VSelect.js");
-/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
+/* harmony import */ var vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! vuetify/lib/components/VDataTable */ "./node_modules/vuetify/lib/components/VDataTable/VSimpleTable.js");
+/* harmony import */ var vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! vuetify/lib/components/VTextField */ "./node_modules/vuetify/lib/components/VTextField/VTextField.js");
 
 
 
@@ -50687,7 +50832,8 @@ var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__
 
 
 
-_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["default"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VDatePicker: vuetify_lib_components_VDatePicker__WEBPACK_IMPORTED_MODULE_8__["default"],VMenu: vuetify_lib_components_VMenu__WEBPACK_IMPORTED_MODULE_9__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_11__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_12__["default"]})
+
+_node_modules_vuetify_loader_lib_runtime_installComponents_js__WEBPACK_IMPORTED_MODULE_3___default()(component, {VApp: vuetify_lib_components_VApp__WEBPACK_IMPORTED_MODULE_4__["default"],VBtn: vuetify_lib_components_VBtn__WEBPACK_IMPORTED_MODULE_5__["default"],VCol: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_6__["default"],VContainer: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_7__["default"],VDatePicker: vuetify_lib_components_VDatePicker__WEBPACK_IMPORTED_MODULE_8__["default"],VMenu: vuetify_lib_components_VMenu__WEBPACK_IMPORTED_MODULE_9__["default"],VRow: vuetify_lib_components_VGrid__WEBPACK_IMPORTED_MODULE_10__["default"],VSelect: vuetify_lib_components_VSelect__WEBPACK_IMPORTED_MODULE_11__["default"],VSimpleTable: vuetify_lib_components_VDataTable__WEBPACK_IMPORTED_MODULE_12__["default"],VTextField: vuetify_lib_components_VTextField__WEBPACK_IMPORTED_MODULE_13__["default"]})
 
 
 /* hot reload */

@@ -24,3 +24,5 @@ Route::get('student/{selectedClass}', [StudentController::class, 'student']);
 Route::post('submitAttendance/', [StudentController::class, 'submitAttendance']);
 
 Route::post('getStudent/', [AttendanceController::class, 'getStudent']);
+
+Route::post('checkAttendance/', [AttendanceController::class,'checkAttendance']);

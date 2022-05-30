@@ -43,4 +43,32 @@ class AttendanceController extends Controller
        
         return response()->json(['a'=>$a, 'fin'=>$finl,'att'=> $att,'students' => $students, 'status'=>200, 'month'=> $selectedMonth, 'list'=> $list, 'results'=>$results ]);
     }
+
+
+
+
+    function checkAttendance(Request $request){
+        $class = $request->selectedClass;
+        $roll = $request->roll;
+        $fromDate = $request->fromDate;
+        $toDate = $request->toDate;
+
+        $student = student::where('rollno', $roll)->where('class', $class)->get();
+
+        $attendance = attendance::where('class_id', $class)
+        ->where('roll', $roll)
+        ->whereBetween('date', [$fromDate, $toDate])
+        ->orderBy('date')
+        ->get();
+
+
+        return response()->json(['attendance'=>$attendance, 'students'=>$student]);
+    }
+
+
+
+
+
+
+
 }

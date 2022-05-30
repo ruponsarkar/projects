@@ -13,6 +13,10 @@ export default {
         return Api().post('/getStudent/', {selectedClass, selectedMonth});
     },
 
+    checkAttendance(selectedClass, roll, fromDate, toDate){
+        return Api().post('checkAttendance/',{selectedClass, roll, fromDate, toDate});
+    },
+
     
 
 
