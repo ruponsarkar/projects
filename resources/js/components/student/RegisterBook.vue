@@ -46,24 +46,28 @@
               </div>
             </v-card>
             <!-- end testing purpose  -->
-          <v-app id="inspire">
-            <v-card>
-              <v-card-title>
-                <v-text-field
-                  v-model="search"
-                  append-icon="mdi-magnify"
-                  label="Search"
-                  single-line
-                  hide-details
-                ></v-text-field>
-              </v-card-title>
-              <v-data-table
-                :headers="headers"
-                :items="desserts"
-                :search="search"
-              ></v-data-table>
-            </v-card>
-          </v-app>
+                       <v-simple-table dense>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th>Index</th>
+                      <th>Name</th>
+                      <th>Roll No</th>
+                      <!-- <th  v-for="(item, index) in attendance" :key="index" class="text-left">{{item.date}}</th> -->
+                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td>Roll no of student</td>
+                      <td>Name of student</td>
+                      <!-- <td v-for="item in attendance" :key="item.id">{{ item.attendance }}</td> -->
+                      
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
         </div>
       </section>
     </div>
@@ -127,7 +131,7 @@ export default {
         .then((res) => {
           console.log(res);
           this.desserts = res.data.students;
-          this.attendance = res.data.a;
+          this.attendance = res.data.att;
           console.log("****=>>>",this.attendance.length);
 
       // for(let i = 0; i <this.attendance.length; i++){
@@ -140,10 +144,6 @@ export default {
               })
             }
             
-            
-
-
-          console.log(attendance.roll, attendance.attendance ) ;
           i++;
 
       });

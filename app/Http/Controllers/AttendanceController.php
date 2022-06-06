@@ -32,15 +32,14 @@ class AttendanceController extends Controller
         ->where('class_id', $selectedClass)
         ->orderBy('roll')
         ->whereBetween('date', [$selectedMonth.'-01', $selectedMonth.'-31'])
-        
         ->get();
         
         $results = DB::table('students')
-    ->join('attendances', 'students.rollno', '=', 'attendances.roll')
-    ->where('students.class', $selectedClass)
-    ->where('attendances.class_id', $selectedClass)
-    ->get();
-       
+        ->join('attendances', 'students.rollno', '=', 'attendances.roll')
+        ->where('students.class', $selectedClass)
+        ->where('attendances.class_id', $selectedClass)
+        ->get();
+        
         return response()->json(['a'=>$a, 'fin'=>$finl,'att'=> $att,'students' => $students, 'status'=>200, 'month'=> $selectedMonth, 'list'=> $list, 'results'=>$results ]);
     }
 
@@ -53,13 +52,30 @@ class AttendanceController extends Controller
         $fromDate = $request->fromDate;
         $toDate = $request->toDate;
 
-        $student = student::where('rollno', $roll)->where('class', $class)->get();
+        // ***************** working codes ***************
+        
+//         $student = student::where('rollno', $roll)->where('class', $class)->get();
+// 
+//         $attendance = attendance::where('class_id', $class)
+//         ->where('roll', $roll)
+//         ->whereBetween('date', [$fromDate, $toDate])
+//         ->orderBy('date')
+//         ->get();
 
-        $attendance = attendance::where('class_id', $class)
-        ->where('roll', $roll)
-        ->whereBetween('date', [$fromDate, $toDate])
-        ->orderBy('date')
-        ->get();
+        // ***************** working codes ***************
+
+
+
+
+        $student = student::where('class', $class)->get();
+
+        // $attendance = attendance::where('class_id', $class)
+        // ->where('roll', $roll)
+        // ->whereBetween('date', [$fromDate, $toDate])
+        // ->orderBy('date')
+        // ->get();
+
+        $attendance = attendance::where('class_id', $class)->orderBy('date')->get()->groupBy('roll');
 
 
         return response()->json(['attendance'=>$attendance, 'students'=>$student]);

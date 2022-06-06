@@ -104,19 +104,22 @@
                 <template v-slot:default>
                   <thead>
                     <tr>
-                      <th>Index</th>
                       <th>Name</th>
                       <th>Roll No</th>
-                      <th  v-for="(item, index) in attendance" :key="index" class="text-left">{{item.date}}</th>
+                      <th v-for="(item, index) in attendance[1]" :key="index" class="text-left">{{item.date}}</th>
                       
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>{{student[0].name}}</td>
-                      <td>{{student[0].rollno}}</td>
-                      <td v-for="item in attendance" :key="item.id">{{ item.attendance }}</td>
+                    <tr v-for="(item, index) in student" :key="index">    
+                      <td>{{item.name}}</td>
+                      <td>{{item.rollno}}</td>
+                      <td v-for="items in attendance[index+1]" :key="items.id" class="text-left">
+                      <span v-if="items.attendance=='absent'" style="color:red;">{{items.attendance}}</span>
+                      <span v-else style="color:green;">{{items.attendance}}</span>
+                       
+                       </td>
+                      
                       
                     </tr>
                   </tbody>
@@ -158,27 +161,8 @@ export default {
       rollno: "",
       selectedClass:"",
       attendance:[],
-      student:'',
+      student:[],
 
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-        },
-       
-      ],
     };
   },
 
@@ -190,6 +174,7 @@ export default {
         console.log(res);
         this.attendance = res.data.attendance;
         this.student = res.data.students;
+        console.log(this.student);
       })
       .catch((err)=>{
         console.log(err);
@@ -199,3 +184,25 @@ export default {
   }
 };
 </script>
+
+
+<style scoped>
+th{
+  background-color: blue;
+  color: white;
+}
+td, th{
+  border: solid;
+
+}
+td:nth-child(1), td:nth-child(2) {
+  background: rgb(155, 151, 151);
+  color: blue;
+  font-weight: bold;
+}
+th:nth-child(2){
+  width: 20px;
+}
+
+
+</style>
