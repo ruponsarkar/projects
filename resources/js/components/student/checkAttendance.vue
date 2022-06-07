@@ -100,20 +100,20 @@
             </v-row>
 
             <v-col col="12">
-              <v-simple-table dense>
+              <v-simple-table dense class="border">
                 <template v-slot:default>
-                  <thead>
+                  <thead class="table-primary">
                     <tr>
-                      <th>Name</th>
-                      <th>Roll No</th>
+                      <th class="border-right">Roll No</th>
+                      <th class="border-right">Name</th>
                       <th v-for="(item, index) in attendance[1]" :key="index" class="text-left">{{item.date}}</th>
                       
                     </tr>
                   </thead>
                   <tbody>
                     <tr v-for="(item, index) in student" :key="index">    
-                      <td>{{item.name}}</td>
-                      <td>{{item.rollno}}</td>
+                      <td class="border-right">{{item.rollno}}</td>
+                      <td class="border-right">{{item.name}}</td>
                       <td v-for="items in attendance[index+1]" :key="items.id" class="text-left">
                       <span v-if="items.attendance=='absent'" style="color:red;">{{items.attendance}}</span>
                       <span v-else style="color:green;">{{items.attendance}}</span>
@@ -186,23 +186,8 @@ export default {
 </script>
 
 
-<style scoped>
-th{
-  background-color: blue;
-  color: white;
-}
-td, th{
-  border: solid;
-
-}
-td:nth-child(1), td:nth-child(2) {
-  background: rgb(155, 151, 151);
-  color: blue;
-  font-weight: bold;
-}
-th:nth-child(2){
-  width: 20px;
-}
-
-
+<style scoped lang="scss">
+ ::v-deep .v-application--wrap {
+    min-height: fit-content;
+  }
 </style>
