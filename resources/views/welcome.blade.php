@@ -49,6 +49,8 @@
             </div>
           </footer> -->
 
+         
+
      <script src="{{asset('js/app.js')}}"></script>
      <!-- jQuery -->
 <script src="{{asset('js/collected/jquery.min.js')}}"></script>

@@ -2,11 +2,11 @@
   <div app>
     <SideTopNav />
     <div class="content-wrapper">
-      <section class="content">
-        <v-container>
-          <v-app>
+      <section class="content p-0">
+        <div class="container-fluid p-0 m-0">
+            <v-app>
             <v-row class="m-2">
-              <v-col cols="6" lg="3">
+              <v-col cols="6" lg="2">
                 <v-select
                   :items="AllClass"
                   :menu-props="{ top: true, offsetY: true }"
@@ -16,7 +16,7 @@
                 ></v-select>
               </v-col>
 
-              <v-col cols="6" lg="3">
+              <v-col cols="6" lg="2">
                 <v-text-field
                   label="Roll No"
                   :rules="rules"
@@ -85,7 +85,7 @@
                 </v-menu>
               </v-col>
 
-              <v-col cols="12">
+              <v-col cols="2">
                 <v-btn
                   block
                   @click="checkAttendance"
@@ -93,20 +93,19 @@
                   color="primary"
                   :loading="loading"
                   :disabled="loading"
-                >
-                  Show
+                ><i class="fas fa-search"></i> &nbsp; Show
                 </v-btn>
               </v-col>
             </v-row>
 
-            <v-col col="12">
+            <v-col col="12" v-if="hide">
               <v-simple-table dense class="border">
                 <template v-slot:default>
                   <thead class="table-primary">
-                    <tr>
+                    <tr class="v-txt-h">
                       <th class="border-right">Roll No</th>
                       <th class="border-right">Name</th>
-                      <th v-for="(item, index) in attendance[1]" :key="index" class="text-left">{{item.date}}</th>
+                      <th class="border-right" v-for="(item, index) in attendance[1]" :key="index">{{item.date}}</th>
                       
                     </tr>
                   </thead>
@@ -114,9 +113,9 @@
                     <tr v-for="(item, index) in student" :key="index">    
                       <td class="border-right">{{item.rollno}}</td>
                       <td class="border-right">{{item.name}}</td>
-                      <td v-for="items in attendance[index+1]" :key="items.id" class="text-left">
-                      <span v-if="items.attendance=='absent'" style="color:red;">{{items.attendance}}</span>
-                      <span v-else style="color:green;">{{items.attendance}}</span>
+                      <td v-for="items in attendance[index+1]" :key="items.id" class="border-right text-center">
+                      <span v-if="items.attendance=='absent'" style="color:red;"><i class="fas fa-times"></i></span>
+                      <span v-else style="color:green;"><i class="fas fa-check"></i></span>
                        
                        </td>
                       
@@ -127,7 +126,7 @@
               </v-simple-table>
             </v-col>
           </v-app>
-        </v-container>
+          </div>
       </section>
     </div>
   </div>
@@ -162,18 +161,24 @@ export default {
       selectedClass:"",
       attendance:[],
       student:[],
+      hide: false,
 
     };
   },
 
   methods: {
     checkAttendance(){
+      
+      this.hide = false,
+      this.loading = true;
 
       Emp.checkAttendance(this.selectedClass, this.rollno, this.fromDate, this.toDate)
       .then((res)=>{
         console.log(res);
         this.attendance = res.data.attendance;
         this.student = res.data.students;
+        this.loading = false;
+        this.hide = true;
         console.log(this.student);
       })
       .catch((err)=>{
@@ -189,5 +194,14 @@ export default {
 <style scoped lang="scss">
  ::v-deep .v-application--wrap {
     min-height: fit-content;
+  }
+  tbody, td, tfoot, th, thead, tr{
+    min-height: max-content;
+  }
+  .theme--light.v-data-table > .v-data-table__wrapper > table > thead > tr:last-child > th{
+    writing-mode: vertical-rl;
+  }
+  th:nth-child(1), th:nth-child(2){
+    writing-mode: horizontal-tb !important;
   }
 </style>

@@ -1,6 +1,7 @@
 <template>
   <v-container>
     <v-app>
+      <SideTopNav />
       <v-row>
         <v-col cols="12" lg="3">
           <v-select
@@ -98,7 +99,14 @@
 </template>
 
 <script>
+
+import SideTopNav from "../Partial/SideTopNav.vue";
+
+
 export default {
+  components: {
+    SideTopNav,
+  },
   data() {
     return {
       loader: null,

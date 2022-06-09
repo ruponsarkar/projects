@@ -16,6 +16,9 @@ export default {
     checkAttendance(selectedClass, roll, fromDate, toDate){
         return Api().post('checkAttendance/',{selectedClass, roll, fromDate, toDate});
     },
+    lastDayAbsenca(today, selectedClass){
+        return Api().post('/lastDayAbsenca',{today, selectedClass});
+    }
 
     
 

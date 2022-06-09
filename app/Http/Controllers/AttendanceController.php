@@ -11,36 +11,15 @@ class AttendanceController extends Controller
 {
     //
     function getStudent(Request $request){
-// return $request->selectedClass;
-        $selectedClass= $request->selectedClass;
-        $selectedMonth= $request->selectedMonth;
-        
-        $students = student::where('class', '=', $selectedClass)->get();
+        $class = $request->selectedClass;
+        $month = $request->selectedMonth;
+        $student = student::where('class', $class)->get();
 
-        foreach($students as $data){
-            $att[] = attendance::where('roll', $data->rollno)->where('class_id', $data->class)
-            ->where('date', 'LIKE', "%{$selectedMonth}%")
-            ->get();
+        $attendance = attendance::where('class_id', $class)->orderBy('date')->where('date', 'LIKE', "%{$month}%")
+        ->get()
+        ->groupBy('roll');
 
-            
-        }
-        $finl = attendance::where('class_id', $selectedClass)->orderBy('roll')->get()->groupBy('roll');
-
-        $list[] = attendance::where('class_id', $selectedClass)->get();
-
-        $a = attendance::select("*")
-        ->where('class_id', $selectedClass)
-        ->orderBy('roll')
-        ->whereBetween('date', [$selectedMonth.'-01', $selectedMonth.'-31'])
-        ->get();
-        
-        $results = DB::table('students')
-        ->join('attendances', 'students.rollno', '=', 'attendances.roll')
-        ->where('students.class', $selectedClass)
-        ->where('attendances.class_id', $selectedClass)
-        ->get();
-        
-        return response()->json(['a'=>$a, 'fin'=>$finl,'att'=> $att,'students' => $students, 'status'=>200, 'month'=> $selectedMonth, 'list'=> $list, 'results'=>$results ]);
+        return response()->json(['attendance'=>$attendance, 'students'=>$student]);
     }
 
 
@@ -52,33 +31,48 @@ class AttendanceController extends Controller
         $fromDate = $request->fromDate;
         $toDate = $request->toDate;
 
-        // ***************** working codes ***************
-        
-//         $student = student::where('rollno', $roll)->where('class', $class)->get();
-// 
-//         $attendance = attendance::where('class_id', $class)
-//         ->where('roll', $roll)
-//         ->whereBetween('date', [$fromDate, $toDate])
-//         ->orderBy('date')
-//         ->get();
+        $student = student::where('class', $class)->where('rollno', $roll)->get();
 
-        // ***************** working codes ***************
-
-
-
-
-        $student = student::where('class', $class)->get();
-
-        // $attendance = attendance::where('class_id', $class)
-        // ->where('roll', $roll)
-        // ->whereBetween('date', [$fromDate, $toDate])
-        // ->orderBy('date')
-        // ->get();
-
-        $attendance = attendance::where('class_id', $class)->orderBy('date')->get()->groupBy('roll');
+        $attendance = attendance::where('class_id', $class)
+        ->whereBetween('date', [$fromDate, $toDate])
+        ->orderBy('date')
+        ->get()
+        ->groupBy('roll');
 
 
         return response()->json(['attendance'=>$attendance, 'students'=>$student]);
+    }
+
+
+    function lastDayAbsenca(Request $request){
+        // $today = '2022-06-25';
+        $today = $request->today;
+        $class = $request->selectedClass;
+
+        $yesterday= date("Y-m-d", strtotime($today.'-1 days' ) );
+
+        $checkHoliday = attendance::where('date', $yesterday)->exists();
+
+        if(!$checkHoliday){
+            for($i=-1; !$checkHoliday; $i--){
+                $yesterday= date("Y-m-d", strtotime($today.$i.' days' ) );
+                $checkHoliday = attendance::where('date', $yesterday)->exists();        
+            }
+            $lastAbsence = attendance::where('date', $yesterday)
+            ->where('class_id', $class)
+            ->where('attendance', 'absent')
+            ->get();
+            return response()->json(['lastAbsence'=>$lastAbsence, 'message'=>"Not yesterDay"]);
+        }
+
+        $lastAbsence = attendance::where('date', $yesterday)
+        ->where('class_id', $class)
+        ->where('attendance', 'absent')
+        ->get();
+
+
+        return response()->json(['lastAbsence'=>$lastAbsence, 'message'=>"Absolute yesterDay"]);
+
     }
 
 

@@ -13,6 +13,7 @@ Vue.use(VueRouter);
 
 const routes = [
     { path: '/', component: StudentAttendance },
+    { path: '/home', component: StudentAttendance },
     { path: '/RegisterBook', component: RegisterBook },
     { path: '/test', component: test },
     { path: '/checkAttendance', component: checkAttendance },

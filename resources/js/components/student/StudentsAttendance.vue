@@ -3,10 +3,10 @@
     <SideTopNav />
 
     <div class="content-wrapper">
-      <section class="content">
-        <div class="container-fluid pt-2">
-          <v-card>
-            <div class="row">
+      <section class="content p-0">
+        <div class="container-fluid p-0 m-0">
+          <v-app>
+          <div class="row">
               <div class="col-md-6 col-12 offset-md-3">
                 <form class="form-inline">
                   <div class="form-group col-6 mx-sm-3 mb-2">
@@ -29,13 +29,14 @@
                 </form>
               </div>
             </div>
-          </v-card>
 
-          <v-app>
-            <v-card v-if="hide">
+          
+            <div v-if="hide">
+              <v-divider></v-divider>
               <v-card class="mx-auto mt-3" max-width="344">
                 <v-card-title>
-                  You have selected class {{ selectedClass }}
+                  You have selected 
+                  class {{ selectedClass }}
                 </v-card-title>
 
                 <v-card-subtitle>
@@ -43,9 +44,9 @@
                 </v-card-subtitle>
               </v-card>
 
-              <div class="row mt-3">
-                <div class="col-md-6">
-                  <v-card>
+              <div class="row">
+                <div class="col-md-12">
+                  <div>
                     <v-card-title>
                       <v-spacer />
                       <div class="text-center">
@@ -53,41 +54,87 @@
                           Attendance list
                         </h3>
 
-                        <div><span style="background-color:red; height:5px; weight: 10px"></span> Some description about the headline</div>
+                        <div>
+                          <span
+                            style="
+                              background-color: red;
+                              height: 5px;
+                              weight: 10px;
+                            "
+                          ></span>
+                          Some description about the headline
+                        </div>
                       </div>
                       <v-spacer />
                     </v-card-title>
 
-                    <v-col v-for="student in allStudents" :key="student.id">
-                      <button
-                        type="button"
-                        value="kundan"
-                        class="btn btn-danger btn-sm btn-block"
-                        @click="attendance(student.id)"
-                        v-bind:id="'attendancBtn' + student.id"
-                        block
-                      >
-                        <div class="row">
-                          <div class="col-md-5"></div>
-                          <div class="col-md-7 text-left">
-                            ({{ student.rollno }}) &nbsp;{{ student.name }}
-                          </div>
-                        </div>
-                      </button>
-                    </v-col>
-
+                    <div class="row p-2">
+                      <v-col v-for="student in allStudents" :key="student.id" class="col-md-3 col-12">
+                        <button
+                          type="button"
+                          value="kundan"
+                          class="btn btn-danger text-white btn-sm btn-block shadow"
+                          @click="attendance(student.id)"
+                          v-bind:id="'attendancBtn' + student.id"
+                          block>
+                          ({{ student.rollno }}) &nbsp;{{ student.name }}
+                        </button>
+                      </v-col>
+                    </div>
+                    <br>
                     <button
                       type="button"
                       class="btn btn-info btn-sm btn-block"
                       @click="submitAttendance"
-                      block
-                    >
+                      block>
                       Submit
                     </button>
-                  </v-card>
+                  </div>
                 </div>
               </div>
-            </v-card>
+
+          <v-divider></v-divider>
+              <div class="mt-6">
+                <v-col> Last Day Absences: </v-col>
+                <v-col>
+                  <button
+                      type="button"
+                      class="btn btn-warning"
+                      @click="lastDayAbsenca"
+                    >
+                      Last Day Absences
+                    </button>
+                    <button
+                      type="button"
+                      class="btn btn-warning"
+                      @click="$router.push('registerBook')"
+                    >
+                     Go to Register Book
+                    </button>
+
+                </v-col>
+                <v-col>
+                  <table class="table">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th scope="col">Roll</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Total in this month</th>
+                        <th scope="col">Date</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr v-for="absence in lastAbsence">
+                        <th scope="row">{{absence.roll}}</th>
+                        <td>{{absence.name}}</td>
+                        <td>{{absence.attendance}}</td>
+                        <td>{{absence.date}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </v-col>
+              </div>
+            </div>
           </v-app>
         </div>
       </section>
@@ -116,6 +163,8 @@ export default {
       selectedClass: "",
       allStudents: [],
       countStudents: "",
+      lastAbsence:[],
+      message:'',
       hide: false,
 
       allAttendance: {},
@@ -155,11 +204,24 @@ export default {
           this.hide = false;
           this.loading = false;
           this.$swal.fire(
-              "The Internet?",
-              "That thing is still around?",
-              "question"
-            );
+            "The Internet?",
+            "That thing is still around?",
+            "question"
+          );
         });
+    },
+
+    lastDayAbsenca(){
+      Emp.lastDayAbsenca(this.today, this.selectedClass)
+      .then((res)=>{
+        console.log(res);
+        this.lastAbsence = res.data.lastAbsence;
+        this.message = res.data.message;
+      })
+      .catch((err)=>{
+        console.log(err);
+      })
+
     },
 
     attendance(id) {
@@ -200,7 +262,7 @@ export default {
         });
       }
       this.allAttendance = att;
-      Emp.submitAttendance(this.allAttendance, this.today,this.selectedClass)
+      Emp.submitAttendance(this.allAttendance, this.today, this.selectedClass)
         .then((res) => {
           console.log("Response**************", res);
           if (res.data.status == 200) {
@@ -230,13 +292,10 @@ export default {
     console.log(today);
     this.today = today;
 
-
     // setInterval(() => {
     //   this.submitAttendance();
     //     console.log ("w");
     // }, 5000);
-
-
   },
 };
 </script>

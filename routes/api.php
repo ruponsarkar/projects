@@ -26,3 +26,5 @@ Route::post('submitAttendance/', [StudentController::class, 'submitAttendance'])
 Route::post('getStudent/', [AttendanceController::class, 'getStudent']);
 
 Route::post('checkAttendance/', [AttendanceController::class,'checkAttendance']);
+
+Route::post('lastDayAbsenca', [AttendanceController::class,'lastDayAbsenca']);

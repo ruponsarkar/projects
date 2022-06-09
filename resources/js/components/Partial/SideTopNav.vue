@@ -99,10 +99,47 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
 
-          
+               <li class="nav-item">
+                <router-link to="/home" class="nav-link">
+                  <i class="nav-icon fas fa-edit"></i>
+                  <p>Attendance</p>
+                </router-link>
+          </li>
+
         
+          
+
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+                <router-link to="checkAttendance" class="nav-link">
+                  <i class="nav-icon fas fa-table"></i>
+                  <p>Check Attendance</p>
+                </router-link>
+          </li>
+
+          <li class="nav-item">
+                <router-link to="RegisterBook" class="nav-link">
+                  <i class="far fa-save nav-icon"></i>
+                  <p>Register Book</p>
+                </router-link>
+              </li>
+
+          <li class="nav-item">
+                <router-link to="#" class="nav-link">
+                  <i class="nav-icon fas fa-table"></i>
+                  <p>School</p>
+                </router-link>
+          </li>
+
+          <li class="nav-item">
+             <router-link to="#" class="nav-link">
+              <i class="nav-icon far fa-image"></i>
+              <p>
+                Form
+              </p>
+           </router-link>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
                 Attendance
@@ -110,13 +147,7 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
-              
-              <li class="nav-item">
-                <router-link to="/" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Student Attendance</p>
-                </router-link>
-              </li>
+
 
               <li class="nav-item">
                 <router-link to="RegisterBook" class="nav-link">
@@ -126,7 +157,7 @@
               </li>
 
               <li class="nav-item">
-                <router-link to="checkAttendance" class="nav-link">
+                <router-link  to="checkAttendance" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Check Attendance</p>
                 </router-link>
@@ -134,46 +165,6 @@
             </ul>
           </li>
 
-          <li class="nav-item">
-            <a href="pages/gallery.html" class="nav-link">
-              <i class="nav-icon far fa-image"></i>
-              <p>
-                Form
-              </p>
-            </a>
-          </li>
-
-
-
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-table"></i>
-              <p>
-                Tables
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="pages/tables/simple.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Simple Tables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/data.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>DataTables</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="pages/tables/jsgrid.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>jsGrid</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
@@ -214,10 +205,23 @@ export default {
     name: "SideTopNav",
     components:{
        
-    }
+    },
+
+    data(){
+      return {
+        isAddClass: false,
+      }
+    },
+   
+
+
 }
 </script>
 
 <style scoped>
+a.router-link-active{
+      background-color: #ffc107;
+    color: #1f2d3d;
+}
 
 </style>
