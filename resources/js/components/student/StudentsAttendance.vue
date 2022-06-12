@@ -113,9 +113,10 @@
                     </button>
 
                 </v-col>
-                <v-col>
+                <v-col v-if="LastDayTable">
                   <table class="table">
                     <thead class="thead-dark">
+                      <td class="headerTable" colspan="40">{{message}}</td>
                       <tr>
                         <th scope="col">Roll</th>
                         <th scope="col">Name</th>
@@ -166,6 +167,7 @@ export default {
       lastAbsence:[],
       message:'',
       hide: false,
+      LastDayTable: false,
 
       allAttendance: {},
       today: "",
@@ -217,6 +219,7 @@ export default {
         console.log(res);
         this.lastAbsence = res.data.lastAbsence;
         this.message = res.data.message;
+        this.LastDayTable = true;
       })
       .catch((err)=>{
         console.log(err);
@@ -301,6 +304,19 @@ export default {
 </script>
 
 <style scoped>
+
+tbody tr{
+  background-color: brown;
+  color:white;
+}
+td.headerTable{
+  background: #ea7272;
+    text-align: center;
+    font-family: fantasy;
+    font-size: x-large;
+}
+
+
 .custom-loader {
   animation: loader 1s infinite;
   display: flex;

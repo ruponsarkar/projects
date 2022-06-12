@@ -45,8 +45,8 @@ class AttendanceController extends Controller
 
 
     function lastDayAbsenca(Request $request){
-        // $today = '2022-06-25';
-        $today = $request->today;
+        $today = '2022-06-25';
+        // $today = $request->today;
         $class = $request->selectedClass;
 
         $yesterday= date("Y-m-d", strtotime($today.'-1 days' ) );
@@ -58,16 +58,27 @@ class AttendanceController extends Controller
                 $yesterday= date("Y-m-d", strtotime($today.$i.' days' ) );
                 $checkHoliday = attendance::where('date', $yesterday)->exists();        
             }
-            $lastAbsence = attendance::where('date', $yesterday)
-            ->where('class_id', $class)
-            ->where('attendance', 'absent')
-            ->get();
+            $lastAbsence = DB::table('students')
+        ->join('attendances', 'attendances.roll', '=', 'students.rollno')
+        ->where('students.class', $class)
+        ->where('attendances.class_id', $class)
+        ->where('attendances.date', $yesterday)
+        ->where('attendances.attendance', 'absent')
+        ->get();
             return response()->json(['lastAbsence'=>$lastAbsence, 'message'=>"Not yesterDay"]);
         }
 
-        $lastAbsence = attendance::where('date', $yesterday)
-        ->where('class_id', $class)
-        ->where('attendance', 'absent')
+        // $lastAbsence = attendance::where('date', $yesterday)
+        // ->where('class_id', $class)
+        // ->where('attendance', 'absent')
+        // ->get();
+
+        $lastAbsence = DB::table('students')
+        ->join('attendances', 'attendances.roll', '=', 'students.rollno')
+        ->where('students.class', $class)
+        ->where('attendances.class_id', $class)
+        ->where('attendances.date', $yesterday)
+        ->where('attendances.attendance', 'absent')
         ->get();
 
 

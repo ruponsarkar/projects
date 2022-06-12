@@ -75,7 +75,7 @@
     <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-light-warning elevation-4">
     <!-- Brand Logo -->
-    <a href="index3.html" class="brand-link">
+    <a href="#" class="brand-link">
       <img src="img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Teacher Module</span>
     </a>
@@ -98,6 +98,7 @@
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
+               <li class="nav-header">Attendance Panel</li>
 
                <li class="nav-item">
                 <router-link to="/home" class="nav-link">
@@ -123,7 +124,7 @@
                 </router-link>
               </li>
 
-          <li class="nav-item">
+          <!-- <li class="nav-item">
                 <router-link to="#" class="nav-link">
                   <i class="nav-icon fas fa-table"></i>
                   <p>School</p>
@@ -137,12 +138,15 @@
                 Form
               </p>
            </router-link>
-          </li>
+          </li> -->
+
+
+          <li class="nav-header">Teachers Panel</li>
           <li class="nav-item">
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-edit"></i>
               <p>
-                Attendance
+                Students
                 <i class="fas fa-angle-left right"></i>
               </p>
             </a>
@@ -150,23 +154,50 @@
 
 
               <li class="nav-item">
-                <router-link to="RegisterBook" class="nav-link">
+                <router-link to="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Student Absence</p>
+                  <p>Add Student</p>
                 </router-link>
               </li>
 
               <li class="nav-item">
-                <router-link  to="checkAttendance" class="nav-link">
+                <router-link  to="#" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Check Attendance</p>
+                  <p>Update Student</p>
                 </router-link>
               </li>
             </ul>
           </li>
 
-          <li class="nav-header">EXAMPLES</li>
-          <li class="nav-item">
+           <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon far fa-calendar-alt"></i>
+              <p>
+                Teachers
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+
+
+              <li class="nav-item">
+                <router-link to="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Attendance</p>
+                </router-link>
+              </li>
+
+              <li class="nav-item">
+                <router-link  to="#" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Update Profile</p>
+                </router-link>
+              </li>
+            </ul>
+          </li>
+
+
+          <!-- <li class="nav-item">
             <a href="pages/calendar.html" class="nav-link">
               <i class="nav-icon far fa-calendar-alt"></i>
               <p>
@@ -182,7 +213,8 @@
                 Gallery
               </p>
             </a>
-          </li>
+          </li> -->
+
         </ul>
       </nav>
       <!-- /.sidebar-menu -->
